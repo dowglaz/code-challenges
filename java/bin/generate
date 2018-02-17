@@ -1,0 +1,43 @@
+#!/usr/bin/env sh
+if [ -z $1 ];
+then
+  echo "You need to pass a file name."
+  exit 1
+fi
+
+filename=`echo $1 | sed -r 's/(^|_)([a-z])/\U\2/g'`
+
+echo "Checking if $filename.java exists..."
+
+if [ -f $filename.java ];
+then
+  echo "File $filename.java already exists."
+  exit 1
+fi
+
+echo "Creating $filename.java..."
+
+cat > $filename.java <<EOF
+import java.util.*;
+
+public class $filename {
+    public int solution(int[] array) {
+        return 0;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] array = new int[n];
+        for(int i = 0; i < n; i++) array[i] = sc.nextInt();
+        System.out.println(new $filename().solution(array));
+    }
+}
+EOF
+
+echo "File $filename.java created."
+
+echo "Creating ./inputs/$filename.txt"
+touch ./inputs/$filename.txt
+echo "Created $filename.txt"
+
