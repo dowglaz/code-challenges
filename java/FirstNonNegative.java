@@ -1,26 +1,20 @@
 import java.util.*;
 
 public class FirstNonNegative {
-    private void printList(List<?> list) {
-        for(Object e : list) { System.out.print(e + ", "); };
-        System.out.println("\n");
-    }
-
     public int solution(int[] A) {
-        int firstNonNull = 0;
-        List<Integer> empties = new ArrayList<Integer>(A.length + 1);
-        for(int i = 0; i <= A.length; i++) {
-            empties.add(i + 1);
-        }
+        int[] slots = new int[A.length + 1];
+
         for(int i = 0; i < A.length; i++) {
             if(A[i] > 0 && A[i] <= A.length) {
-                empties.set(A[i] - 1, null);
-                if(empties.get(A[i]) != null) firstNonNull = A[i];
+                slots[A[i] - 1] = A[i];
             }
         }
-        System.out.println(firstNonNull);
-        printList(empties);
-        return empties.get(firstNonNull);
+
+        for(int i = 0; i < A.length; i++) {
+            if(slots[i] == 0) return i + 1;
+        }
+
+        return A.length + 1;
     }
 
     public static void main(String[] args) {
