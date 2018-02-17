@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+filename=${1%%.*}
+
+echo "Compiling $filename.java"
+javac $1 -d ./class
+
+echo "Executing java class ./class/$filename.class with input ./inputs/$filename.txt"
+while read input; do
+  echo "Testing $input"
+  echo $input | java -cp ./class $filename
+done <./inputs/$filename.txt
+

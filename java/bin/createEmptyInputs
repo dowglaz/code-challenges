@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+for file in `ls .`
+do
+  extension=${file#*.}
+  if [ -f $file -a $extension == "java" ];
+  then
+    filename=${file%%.*}.txt
+    # Touch command already deals with it but it considers only non existing
+    # files to print it right.
+    if [ ! -f ./inputs/$filename ];
+    then
+      echo "Creating $filename"
+      touch ./inputs/$filename
+    fi
+  fi
+done
