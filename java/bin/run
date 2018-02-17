@@ -1,12 +1,18 @@
 #!/usr/bin/env sh
-filename=${1%%.*}
+base=${1%%.*}
+filename=$1
 
-echo "Compiling $filename.java"
-javac $1 -d ./class
+echo "Compiling $filename"
+javac -d ./class $filename
 
-echo "Executing java class ./class/$filename.class with input ./inputs/$filename.txt"
+if [ $? -ne 0 ]; then
+  echo "Error compiling $filename"
+  exit 1
+fi
+
+echo "Executing java class ./class/$base.class with input ./inputs/$base.txt"
 while read input; do
   echo "Testing $input"
-  echo $input | java -cp ./class $filename
-done <./inputs/$filename.txt
+  echo $input | java -cp ./class $base
+done <./inputs/$base.txt
 
